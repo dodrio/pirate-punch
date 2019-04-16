@@ -2,10 +2,14 @@ import 'regenerator-runtime/runtime'
 
 import Phaser from 'phaser'
 import WebFontLoaderPlugin from './plugins/web-font-loader'
+import pluginEasySize from './plugins/easy-size'
+import pluginEasyTweens from './plugins/easy-tweens'
+import pluginEasyTime from './plugins/easy-time'
 
 import env from './util/env'
 import dc from './util/device-compatibility'
 
+import Splash from './scenes/Splash'
 import Boot from './scenes/Boot'
 import Play from './scenes/Play'
 
@@ -28,7 +32,7 @@ const config = {
   height: 1750,
   backgroundColor: 0x000000,
   transparent: false,
-  scene: [Boot, Play],
+  scene: [Splash, Boot, Play],
   physics: {
     default: 'arcade',
   },
@@ -39,6 +43,11 @@ const config = {
         plugin: WebFontLoaderPlugin,
         start: true,
       },
+    ],
+    scene: [
+      { key: 'easySize', plugin: pluginEasySize, mapping: 'easySize' },
+      { key: 'easyTweens', plugin: pluginEasyTweens, mapping: 'easyTweens' },
+      { key: 'easyTime', plugin: pluginEasyTime, mapping: 'easyTime' },
     ],
   },
 }
