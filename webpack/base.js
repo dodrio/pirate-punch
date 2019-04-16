@@ -30,8 +30,8 @@ module.exports = {
     alias: {
       res: resScanner,
       'res-dir': resolve('res'),
-      phaser: resolve('src/Phaser.js'),
-      'original-phaser': resolve('node_modules/phaser/src'),
+      // phaser: resolve('src/Phaser.js'),
+      phaser: resolve('node_modules/phaser/src/phaser-arcade-physics'),
     },
   },
   module: {

@@ -7,6 +7,7 @@ import env from './util/env'
 import dc from './util/device-compatibility'
 
 import Boot from './scenes/Boot'
+import Play from './scenes/Play'
 
 if (env.isProduction()) {
   // remove useless reference of Phaser
@@ -19,15 +20,15 @@ const config = {
   type: Phaser.AUTO,
   autoFocus: true,
   parent: 'game-container',
-  scaleMode: Phaser.Scale.ENVELOP,
+  scaleMode: Phaser.Scale.FIT,
   autoCenter: Phaser.Scale.CENTER_BOTH,
   forceOrientation: true,
   banner: !env.isProduction(),
-  width: 1500,
-  height: 750,
+  width: 1080,
+  height: 1750,
   backgroundColor: 0x000000,
-  transparent: true,
-  scene: [Boot],
+  transparent: false,
+  scene: [Boot, Play],
   physics: {
     default: 'arcade',
   },
