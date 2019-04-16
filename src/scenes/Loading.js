@@ -1,9 +1,9 @@
 import Phaser from 'phaser'
 import res from 'res'
 
-class Boot extends Phaser.Scene {
+class Loading extends Phaser.Scene {
   constructor() {
-    super('Boot')
+    super('Loading')
   }
 
   init() {
@@ -114,4 +114,4 @@ class Boot extends Phaser.Scene {
   }
 }
 
-export default Boot
+export default Loading

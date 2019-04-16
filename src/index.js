@@ -10,7 +10,7 @@ import env from './util/env'
 import dc from './util/device-compatibility'
 
 import Splash from './scenes/Splash'
-import Boot from './scenes/Boot'
+import Loading from './scenes/Loading'
 import Play from './scenes/Play'
 
 if (env.isProduction()) {
@@ -32,7 +32,7 @@ const config = {
   height: 1750,
   backgroundColor: 0x000000,
   transparent: false,
-  scene: [Splash, Boot, Play],
+  scene: [Splash, Loading, Play],
   physics: {
     default: 'arcade',
   },
