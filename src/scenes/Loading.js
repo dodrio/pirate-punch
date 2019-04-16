@@ -6,62 +6,17 @@ class Loading extends Phaser.Scene {
     super('Loading')
   }
 
-  init() {
-    const { width, height } = this.game.config
-    this.gameWidth = width
-    this.gameHeight = height
-    this.gameCenterX = width / 2
-    this.gameCenterY = height / 2
-  }
+  async create() {
+    const updateProgressCallback = this.addProgress()
 
-  preload() {
-    this.load.webFont('Stacked Pixel', res.url('font.stacked-pixel'))
-  }
+    const mixerProgress = { value: 0 }
 
-  create() {
-    const progressBoxX = 200
-    const progressBoxY = this.gameCenterY
-    const progressBoxWidth = this.gameWidth - 2 * progressBoxX
-    const progressBoxHeight = 70
+    const updateSyntheticalProgress = () => {
+      const progress = this.load.progress * 0.5 + mixerProgress.value * 0.5
+      updateProgressCallback(progress)
+    }
 
-    const progressBarX = progressBoxX + 10
-    const progressBarY = progressBoxY + 10
-    const progressBarWidth = progressBoxWidth - 20
-    const progressBarHeight = progressBoxHeight - 20
-
-    const percentTextX = this.gameCenterX
-    const percentTextY = this.gameCenterY + progressBoxHeight / 2
-
-    const assetTextX = this.gameCenterX
-    const assetTextY = this.gameCenterY + 100
-
-    const progressBar = this.add.graphics()
-
-    const progressBox = this.add.graphics()
-    progressBox.fillStyle(0x222222, 0.5)
-    progressBox.fillRect(
-      progressBoxX,
-      progressBoxY,
-      progressBoxWidth,
-      progressBoxHeight
-    )
-
-    const percentText = this.add
-      .text(percentTextX, percentTextY, '0%', {
-        fontFamily: 'Stacked Pixel',
-        fontSize: 40,
-        color: '#ffffff',
-      })
-      .setOrigin(0.5)
-
-    const assetText = this.add
-      .text(assetTextX, assetTextY, '', {
-        fontFamily: 'Stacked Pixel',
-        fontSize: 40,
-        color: '#ffffff',
-      })
-      .setOrigin(0.5, 0.5)
-
+    // real progress
     this.load.image('background', res.url('image.background'))
     this.load.image('stump', res.url('image.stump'))
     this.load.image('trunk1', res.url('image.trunk1'))
@@ -80,7 +35,69 @@ class Loading extends Phaser.Scene {
     this.load.audio('cut', res.url('sound.cut'))
     this.load.audio('death', res.url('sound.death'))
 
-    this.load.on('progress', function(progress) {
+    this.load.on('progress', progress => {
+      updateProgressCallback(progress)
+    })
+
+    const filesLoaded = new Promise(resolve => {
+      this.load.once('complete', resolve)
+    })
+    this.load.start()
+
+    // fake progress
+    const mixerLoaded = new Promise(resolve => {
+      this.tweens.add({
+        targets: mixerProgress,
+        value: 1,
+        duration: 1000,
+        onUpdate: updateSyntheticalProgress,
+        onComplete: resolve,
+        ease: 'Power2',
+      })
+    })
+
+    await Promise.all([filesLoaded, mixerLoaded])
+    await this.easyTime.delay(500)
+
+    this.nextScene()
+  }
+
+  addProgress() {
+    const { gameCenterX, gameCenterY, gameWidth } = this.easySize
+
+    const progressBoxX = 200
+    const progressBoxY = gameCenterY
+    const progressBoxWidth = gameWidth - 2 * progressBoxX
+    const progressBoxHeight = 70
+
+    const progressBarX = progressBoxX + 10
+    const progressBarY = progressBoxY + 10
+    const progressBarWidth = progressBoxWidth - 20
+    const progressBarHeight = progressBoxHeight - 20
+
+    const percentTextX = gameCenterX
+    const percentTextY = gameCenterY + progressBoxHeight / 2
+
+    const progressBox = this.add.graphics()
+    progressBox.fillStyle(0x333333)
+    progressBox.fillRect(
+      progressBoxX,
+      progressBoxY,
+      progressBoxWidth,
+      progressBoxHeight
+    )
+
+    const progressBar = this.add.graphics()
+
+    const percentText = this.add
+      .text(percentTextX, percentTextY, '0%', {
+        fontFamily: 'Stacked Pixel',
+        fontSize: 40,
+        color: '#000000',
+      })
+      .setOrigin(0.5)
+
+    return function updateProgressBar(progress) {
       progressBar.clear()
       progressBar.fillStyle(0xffffff, 1)
       progressBar.fillRect(
@@ -91,22 +108,7 @@ class Loading extends Phaser.Scene {
       )
 
       percentText.setText(Number.parseInt(progress * 100) + '%')
-    })
-
-    this.load.on('fileprogress', function(file) {
-      assetText.setText('Loading asset: ' + file.src)
-    })
-
-    this.load.once('complete', () => {
-      progressBar.destroy()
-      progressBox.destroy()
-      percentText.destroy()
-      assetText.destroy()
-
-      this.nextScene()
-    })
-
-    this.load.start()
+    }
   }
 
   nextScene() {

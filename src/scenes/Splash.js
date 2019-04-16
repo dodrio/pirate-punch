@@ -32,6 +32,9 @@ class Splash extends Phaser.Scene {
 
     await this.easyTweens.fadeIn([phaserLogo, phaserPower])
     await this.easyTime.delay(1500)
+    await this.easyTweens.fadeOut([phaserLogo, phaserPower])
+
+    this.nextScene()
   }
 
   createSlogan() {
@@ -71,7 +74,7 @@ class Splash extends Phaser.Scene {
   }
 
   nextScene() {
-    this.scene.start('Boot')
+    this.scene.start('Loading')
   }
 }
 

@@ -5,9 +5,9 @@ class EasyTimePlugin extends Phaser.Plugins.ScenePlugin {
     super(scene, pluginManager)
   }
 
-  delay() {
+  delay(delay = 1000) {
     return new Promise(resolve => {
-      const config = { delay: 1000, callback: resolve }
+      const config = { delay, callback: resolve }
       this.scene.time.addEvent(config)
     })
   }
