@@ -1,10 +1,16 @@
 import 'regenerator-runtime/runtime'
 
 import Phaser from 'phaser'
-import WebFontLoaderPlugin from './plugins/web-font-loader'
-import pluginEasySize from './plugins/easy-size'
-import pluginEasyTweens from './plugins/easy-tweens'
-import pluginEasyTime from './plugins/easy-time'
+
+import ScaleManager from 'phaser-harmony/scale/ScaleManager'
+
+import pluginWebFontLoader from 'phaser-harmony/plugins/web-font-loader'
+import pluginEasySize from 'phaser-harmony/plugins/easy-size'
+import pluginEasyTweens from 'phaser-harmony/plugins/easy-tweens'
+import pluginEasyTime from 'phaser-harmony/plugins/easy-time'
+import pluginDOM from 'phaser-harmony/plugins/gameobjects/dom/DOMPlugin'
+import pluginHTML5Video from 'phaser-harmony/plugins/gameobjects/html5video/HTML5VideoPlugin'
+import pluginCanvasVideo from 'phaser-harmony/plugins/gameobjects/canvasvideo/CanvasVideoPlugin'
 
 import env from './util/env'
 import dc from './util/device-compatibility'
@@ -24,6 +30,7 @@ const config = {
   type: Phaser.AUTO,
   autoFocus: true,
   parent: 'game-container',
+  scaleManagerClass: ScaleManager,
   scaleMode: Phaser.Scale.FIT,
   autoCenter: Phaser.Scale.CENTER_BOTH,
   forceOrientation: true,
@@ -40,9 +47,12 @@ const config = {
     global: [
       {
         key: 'WebFontLoader',
-        plugin: WebFontLoaderPlugin,
+        plugin: pluginWebFontLoader,
         start: true,
       },
+      { key: 'DOM', plugin: pluginDOM, start: true },
+      { key: 'HTML5Video', plugin: pluginHTML5Video, start: true },
+      { key: 'CanvasVideo', plugin: pluginCanvasVideo, start: true },
     ],
     scene: [
       { key: 'easySize', plugin: pluginEasySize, mapping: 'easySize' },

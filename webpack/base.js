@@ -33,6 +33,7 @@ module.exports = {
       // phaser: resolve('src/Phaser.js'),
       phaser$: resolve('node_modules/phaser/src/phaser-arcade-physics'),
       phaser: resolve('node_modules/phaser/src/'),
+      'phaser-harmony': resolve('node_modules/phaser-harmony/src/'),
     },
   },
   module: {
