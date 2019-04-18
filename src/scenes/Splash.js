@@ -14,9 +14,6 @@ class Splash extends Phaser.Scene {
   async create() {
     const { gameCenterX, gameCenterY } = this.easySize
 
-    const dom = this.createTestDOM()
-    this.add.existing(dom)
-
     const slogan = this.createSlogan()
     slogan.setPosition(gameCenterX, gameCenterY)
     this.add.existing(slogan)
@@ -37,7 +34,7 @@ class Splash extends Phaser.Scene {
     await this.easyTime.delay(1500)
     await this.easyTweens.fadeOut([phaserLogo, phaserPower])
 
-    // this.nextScene()
+    this.nextScene()
   }
 
   createSlogan() {
@@ -74,18 +71,6 @@ class Splash extends Phaser.Scene {
       )
       .setOrigin(0.5)
       .setAlpha(0)
-  }
-
-  createTestDOM() {
-    const element = document.createElement('div')
-    element.style.backgroundColor = 'red'
-    element.style.fontSize = '50px'
-    element.innerText = 'Hello'
-
-    return this.make
-      .dom({ element })
-      .setSize(200, 200)
-      .setPosition(200, 200)
   }
 
   nextScene() {
