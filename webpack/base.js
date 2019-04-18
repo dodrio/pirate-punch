@@ -31,7 +31,8 @@ module.exports = {
       res: resScanner,
       'res-dir': resolve('res'),
       // phaser: resolve('src/Phaser.js'),
-      phaser: resolve('node_modules/phaser/src/phaser-arcade-physics'),
+      phaser$: resolve('node_modules/phaser/src/phaser-arcade-physics'),
+      phaser: resolve('node_modules/phaser/src/'),
     },
   },
   module: {
