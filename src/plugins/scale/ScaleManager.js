@@ -122,6 +122,16 @@ var ScaleManager = new Class({
     EventEmitter.call(this)
 
     /**
+     * This is not the official scale manager.
+     *
+     * @name Phaser.Scale.ScaleManager#unofficial
+     * @type {Phaser.Game}
+     * @readonly
+     * @since 3.17.0
+     */
+    this.unofficial = true
+
+    /**
      * A reference to the Phaser.Game instance.
      *
      * @name Phaser.Scale.ScaleManager#game
