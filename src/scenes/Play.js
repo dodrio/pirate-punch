@@ -355,7 +355,7 @@ class Play extends Phaser.Scene {
   restart() {
     GAME_OVER = false
     this.resetScore()
-    this.scene.start('PlayGame')
+    this.scene.start('Play')
   }
 }
 
